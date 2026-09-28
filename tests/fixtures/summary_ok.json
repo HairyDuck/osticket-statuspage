@@ -1,0 +1,31 @@
+{
+  "page": {
+    "id": "examplepage",
+    "name": "Example Status",
+    "url": "https://example.statuspage.io",
+    "time_zone": "Europe/London",
+    "updated_at": "2026-09-28T12:00:00.000+01:00"
+  },
+  "components": [
+    {
+      "id": "c1",
+      "name": "Web Application",
+      "status": "operational",
+      "showcase": true,
+      "group": false
+    },
+    {
+      "id": "c2",
+      "name": "API",
+      "status": "operational",
+      "showcase": true,
+      "group": false
+    }
+  ],
+  "incidents": [],
+  "scheduled_maintenances": [],
+  "status": {
+    "indicator": "none",
+    "description": "All Systems Operational"
+  }
+}

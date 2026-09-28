@@ -1,0 +1,48 @@
+{
+  "page": {
+    "id": "examplepage",
+    "name": "Example Status",
+    "url": "https://example.statuspage.io",
+    "time_zone": "Europe/London",
+    "updated_at": "2026-09-28T12:30:00.000+01:00"
+  },
+  "components": [
+    {
+      "id": "c1",
+      "name": "Web Application",
+      "status": "degraded_performance",
+      "showcase": true,
+      "group": false
+    },
+    {
+      "id": "c2",
+      "name": "API",
+      "status": "operational",
+      "showcase": true,
+      "group": false
+    }
+  ],
+  "incidents": [
+    {
+      "id": "inc123",
+      "name": "Intermittent API latency",
+      "status": "investigating",
+      "created_at": "2026-09-28T12:10:00.000+01:00",
+      "updated_at": "2026-09-28T12:25:00.000+01:00",
+      "impact": "minor",
+      "shortlink": "https://example.statuspage.io/incidents/inc123",
+      "incident_updates": [
+        {
+          "body": "We are investigating elevated latency on the public API.",
+          "created_at": "2026-09-28T12:25:00.000+01:00",
+          "status": "investigating"
+        }
+      ]
+    }
+  ],
+  "scheduled_maintenances": [],
+  "status": {
+    "indicator": "minor",
+    "description": "Minor Service Outage"
+  }
+}

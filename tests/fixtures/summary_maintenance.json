@@ -1,0 +1,35 @@
+{
+  "page": {
+    "id": "examplepage",
+    "name": "Example Status",
+    "url": "https://example.statuspage.io",
+    "time_zone": "Europe/London",
+    "updated_at": "2026-09-28T13:00:00.000+01:00"
+  },
+  "components": [],
+  "incidents": [],
+  "scheduled_maintenances": [
+    {
+      "id": "maint456",
+      "name": "Database maintenance window",
+      "status": "in_progress",
+      "created_at": "2026-09-20T10:00:00.000+01:00",
+      "updated_at": "2026-09-28T13:00:00.000+01:00",
+      "impact": "maintenance",
+      "shortlink": "https://example.statuspage.io/incidents/maint456"
+    },
+    {
+      "id": "maint789",
+      "name": "Upcoming weekend work",
+      "status": "scheduled",
+      "created_at": "2026-09-25T10:00:00.000+01:00",
+      "updated_at": "2026-09-25T10:00:00.000+01:00",
+      "impact": "maintenance",
+      "shortlink": "https://example.statuspage.io/incidents/maint789"
+    }
+  ],
+  "status": {
+    "indicator": "maintenance",
+    "description": "Service Under Maintenance"
+  }
+}
