@@ -1,42 +1,42 @@
-# osTicket Statuspage Banner
+# osTicket Statuspage
 
-**osTicket Statuspage plugin** that shows Atlassian Statuspage status on the client helpdesk portal, natively.
+**Native Statuspage home page for osTicket** – Atlassian Statuspage on your client helpdesk portal, without an iframe.
 
-No iframe. Server-side fetch of the public Statuspage summary API. Full-width status panel on the landing page, optional slim banner when systems are degraded. No core file patches. MIT licensed.
+Turns the osTicket landing page into a proper status home: overall state, components, incidents, maintenance, and a subscribe button. Optional slim banner on other client pages when something is wrong. Server-side `summary.json` only. No core file patches. MIT licensed.
 
 [![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 [![osTicket](https://img.shields.io/badge/osTicket-1.17%2B%20%2F%201.18%2B-green.svg)](https://osticket.com/)
 [![PHP](https://img.shields.io/badge/PHP-8-777BB4.svg)](https://www.php.net/)
 
-Repository: <https://github.com/HairyDuck/osticket-statuspage-banner>
+Repository: <https://github.com/HairyDuck/osticket-statuspage>
 
 ---
 
-## Why osTicket Statuspage Banner?
+## Why osTicket Statuspage?
 
-Helpdesks often paste a Statuspage iframe into the osTicket landing page. It looks cramped, fights the portal layout, and loads third-party scripts.
+Helpdesks often paste a Statuspage iframe into the osTicket landing page. It looks cramped, fights the portal layout, and loads third-party scripts. Customers land on support looking for answers, not a squeezed remote page.
 
-This plugin instead:
+**osTicket Statuspage** makes the **client home page** the status experience:
 
 | Need | Typical iframe | This plugin |
 |------|----------------|-------------|
-| Status on client home | Squashed Statuspage UI | Native panel matching osTicket chrome |
-| Healthy state | Always shows full remote page | Clear “All systems operational” + components |
-| Degraded state | Same iframe | Panel + optional slim banner on other pages |
+| Status on client home | Squashed Statuspage UI | Native home panel matching osTicket chrome |
+| Healthy state | Always shows full remote page | Clear “All systems operational” + full component list |
+| Degraded state | Same iframe | Home panel + optional slim banner elsewhere |
 | CSP / remote scripts | Embed script + iframe | Server-side `summary.json` only |
 | Core upgrades | Often involves template edits | Plugin-only; no core patches |
 | Subscribe | Remote Statuspage UI | Button linking to your Statuspage |
 
-Ideal for: **osTicket + Statuspage**, customer portal status, incident communications, and replacing Statuspage iframes on helpdesk home pages.
+Ideal for: **osTicket Statuspage integration**, customer portal status home, incident communications, and replacing Statuspage iframes on helpdesk landing pages.
 
 ---
 
 ## Features
 
-* **Native home panel** – overall state, incidents, maintenance, component list, subscribe button
+* **Statuspage home on osTicket** – overall state, incidents, maintenance, component list, subscribe button
 * **Strips Statuspage embeds** – removes `embed/script.js` and Statuspage iframes from landing HTML
 * **Optional degraded banner** – slim top bar on other client pages when status is not healthy
-* **Subscribe to updates** – button opens your public Statuspage (subscribe UI lives there)
+* **Subscribe to updates** – button opens your public Statuspage
 * **No cache by default** – fresh fetch on every page view (`cache_ttl=0`)
 * **Fail closed** – fetch errors never break the portal
 * **Production-safe** – drop-in under `include/plugins/`; stock templates untouched
@@ -57,11 +57,9 @@ No Statuspage API key is required for the public summary endpoint.
 
 1. Copy this folder to your osTicket install as:
 
-   `include/plugins/osticket-statuspage-banner/`
+   `include/plugins/osticket-statuspage/`
 
-   (A shorter folder name such as `osticket-statuspage/` is fine.)
-
-2. Admin → Manage → Plugins → install **Statuspage Banner**.
+2. Admin → Manage → Plugins → install **Statuspage Home**.
 3. Add an instance, enable it, open **Config**.
 4. Set **Statuspage base URL** (HTTPS), e.g. `https://example.statuspage.io`.
 5. Leave **Native status panel on client home** enabled; leave **Cache TTL** at `0` unless you need caching.
@@ -75,6 +73,8 @@ Offline smoke check (no osTicket required):
 php tests/smoke.php
 ```
 
+Upgrade note: older builds used the plugin id `opensource:osticket-statuspage-banner`. After upgrading files, re-install / re-add the instance if osTicket does not pick up **Statuspage Home** automatically.
+
 ---
 
 ## Configuration
@@ -83,7 +83,7 @@ php tests/smoke.php
 |---------|---------|--------|
 | Enable plugin | On | When off, nothing is injected |
 | Statuspage base URL | (empty) | HTTPS only; trailing slash optional |
-| Native status panel on client home | On | Always shown on landing when data loads (including healthy) |
+| Native status panel on client home | On | The Statuspage home experience on the landing page |
 | Status page link label | `View full status page` | Text link to the public Statuspage |
 | Show subscribe button on home panel | On | Opens Statuspage (subscribe UI lives there) |
 | Subscribe button label | `Subscribe to updates` | Uses stock osTicket blue button class |
@@ -95,21 +95,19 @@ php tests/smoke.php
 
 ## Behaviour
 
-### Client home
+### Client home (primary)
 
 1. Fetches `{base}/api/v2/summary.json` (no cache by default).
 2. Removes Statuspage embed scripts and iframes from the landing HTML.
-3. Injects a native panel: overall state, headline when relevant, incidents/maintenance, components, subscribe button, and a link out.
-4. Shows **Checked just now** for this request (not Statuspage’s last change timestamp).
+3. Injects a native **Statuspage home** panel: overall state, headline when relevant, incidents/maintenance, components, subscribe button, and a link out.
+4. Shows **Checked just now** for this request.
 5. Fetch failure: landing still loads; embeds are still stripped; panel is omitted.
 
 ### Other pages (optional banner)
 
-1. Banner is **hidden** when `status.indicator` is `none`, there are no unresolved incidents, and there is no maintenance with status `in_progress` or `verifying`.
-2. Upcoming `scheduled` maintenance alone does not show a banner (home panel may still list upcoming within 72 hours).
-3. Banner text prefers the current incident/maintenance name; otherwise `status.description`.
-4. Link opens Statuspage in a new tab (`rel="noopener noreferrer"`).
-5. Dismissible via `localStorage` for the current incident/maintenance key.
+1. Banner is **hidden** when everything is healthy.
+2. Shows when unresolved incidents, active/verifying maintenance, or a non-`none` indicator is present.
+3. Dismissible via `localStorage` for the current incident/maintenance key.
 
 ### Integration notes
 
@@ -117,7 +115,7 @@ osTicket 1.17/1.18 has no stable Signal for client chrome. This plugin uses outp
 
 ### Iframe mode
 
-Not used. Prefer this plugin over embedding Statuspage in an iframe.
+Not used. Prefer this plugin over embedding Statuspage in an iframe on the helpdesk home page.
 
 ---
 
@@ -135,11 +133,11 @@ No API key is required for the public summary endpoint.
 
 ## Production rollout checklist
 
-1. Deploy the plugin folder; confirm it appears under Manage → Plugins.
+1. Deploy the plugin folder; confirm **Statuspage Home** appears under Manage → Plugins.
 2. Enable with a real Statuspage HTTPS base URL; leave cache at `0`.
-3. Soft-refresh the client home: expect native panel, no iframe.
-4. Optionally open a non-home client page while Statuspage is healthy: no slim banner.
-5. When you next have a real incident (or a staging Statuspage), confirm the panel and optional banner update.
+3. Soft-refresh the client home: expect a native Statuspage home panel, no iframe.
+4. Optionally open a non-home client page while healthy: no slim banner.
+5. When you next have a real incident (or a staging Statuspage), confirm the home panel and optional banner update.
 
 ---
 
@@ -158,6 +156,11 @@ Community contributions welcome under the MIT licence.
 ---
 
 ## Changelog
+
+### 1.2.3
+
+* Rebrand to **Statuspage Home**: native Statuspage home page for osTicket (banner is optional secondary)
+* Repository and docs focused on the client home experience
 
 ### 1.2.2
 
@@ -190,14 +193,14 @@ Community contributions welcome under the MIT licence.
 ## Layout
 
 ```
-osticket-statuspage-banner/
-  plugin.php                     Metadata (version 1.2.2)
+osticket-statuspage/
+  plugin.php                     Metadata (version 1.2.3)
   osticket-statuspage-banner.php Bootstrap + output buffer inject
   config.php                     Admin settings
   include/
     StatuspageClient.php         HTTPS fetch + decision logic
-    BannerRenderer.php           Degraded slim banner
-    HomePanelRenderer.php        Native home panel
+    BannerRenderer.php           Optional degraded slim banner
+    HomePanelRenderer.php        Native Statuspage home panel
   tests/smoke.php                Offline syntax + behaviour checks
   LICENSE
   README.md
@@ -209,7 +212,7 @@ Offline smoke: `php tests/smoke.php`
 
 ## Keywords
 
-osTicket Statuspage, osTicket status page plugin, Atlassian Statuspage osTicket, osTicket landing page status, osTicket status banner, helpdesk status page, Statuspage iframe alternative, osTicket plugin MIT, client portal status.
+osTicket Statuspage, osTicket status page, Statuspage home page osTicket, Atlassian Statuspage osTicket plugin, osTicket landing page status, helpdesk status home, Statuspage iframe alternative, osTicket plugin MIT, client portal status page.
 
 ---
 

@@ -48,15 +48,20 @@ if (!is_array($plugin) || empty($plugin['plugin'])) {
 } else {
     ok('plugin.php metadata');
 }
-if (empty($plugin['version']) || $plugin['version'] !== '1.2.2') {
-    fail('plugin version expected 1.2.2');
+if (empty($plugin['version']) || $plugin['version'] !== '1.2.3') {
+    fail('plugin version expected 1.2.3');
 } else {
-    ok('plugin version 1.2.2');
+    ok('plugin version 1.2.3');
 }
-if (empty($plugin['id']) || $plugin['id'] !== 'opensource:osticket-statuspage-banner') {
-    fail('plugin id expected opensource:osticket-statuspage-banner');
+if (empty($plugin['id']) || $plugin['id'] !== 'opensource:osticket-statuspage') {
+    fail('plugin id expected opensource:osticket-statuspage');
 } else {
     ok('plugin id');
+}
+if (empty($plugin['name']) || stripos($plugin['name'], 'Statuspage Home') === false) {
+    fail('plugin name expected Statuspage Home');
+} else {
+    ok('plugin name Statuspage Home');
 }
 
 require_once $root . '/include/StatuspageClient.php';
@@ -271,22 +276,22 @@ $readme = file_get_contents($root . '/README.md');
 if ($readme === false) {
     fail('README.md missing');
 } else {
-    foreach (array('## Install', '## Configuration', '## Behaviour', 'summary.json', 'curl', 'Native', 'Subscribe', 'Why osTicket Statuspage') as $needle) {
+    foreach (array('## Install', '## Configuration', '## Behaviour', 'summary.json', 'curl', 'Native Statuspage home', 'Subscribe', 'Why osTicket Statuspage') as $needle) {
         if (stripos($readme, $needle) === false) {
             fail('README missing section/content: ' . $needle);
         } else {
             ok('README has ' . $needle);
         }
     }
-    if (stripos($readme, 'Metadata (version 1.2.2)') === false) {
-        fail('README layout version expected 1.2.2');
+    if (stripos($readme, 'Metadata (version 1.2.3)') === false) {
+        fail('README layout version expected 1.2.3');
     } else {
-        ok('README layout version 1.2.2');
+        ok('README layout version 1.2.3');
     }
-    if (stripos($readme, '## Changelog') === false || stripos($readme, '### 1.2.2') === false) {
-        fail('README missing Changelog 1.2.2');
+    if (stripos($readme, '## Changelog') === false || stripos($readme, '### 1.2.3') === false) {
+        fail('README missing Changelog 1.2.3');
     } else {
-        ok('README Changelog 1.2.2');
+        ok('README Changelog 1.2.3');
     }
 }
 

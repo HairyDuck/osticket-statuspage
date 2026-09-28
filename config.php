@@ -13,7 +13,7 @@ class StatuspageBannerConfig extends PluginConfig
         return array(
             'enabled' => new BooleanField(array(
                 'id'      => 'enabled',
-                'label'   => 'Enable plugin',
+                'label'   => 'Enable Statuspage Home',
                 'default' => true,
                 'hint'    => 'When disabled, nothing is injected into the portal.',
             )),
@@ -27,9 +27,9 @@ class StatuspageBannerConfig extends PluginConfig
             )),
             'home_panel' => new BooleanField(array(
                 'id'      => 'home_panel',
-                'label'   => 'Native status panel on client home',
+                'label'   => 'Native Statuspage home on client landing page',
                 'default' => true,
-                'hint'    => 'Renders Statuspage data on the landing page (no iframe). Always visible, including when healthy.',
+                'hint'    => 'Turns the osTicket home page into a Statuspage status home (no iframe).',
             )),
             'link_label' => new TextboxField(array(
                 'id'      => 'link_label',
