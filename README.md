@@ -1,5 +1,9 @@
 # osTicket Statuspage
 
+<p align="center">
+  <img src="assets/logo.svg" alt="osTicket Statuspage" width="96" height="96">
+</p>
+
 **Native Statuspage home page for osTicket** – Atlassian Statuspage on your client helpdesk portal, without an iframe.
 
 Turns the osTicket landing page into a proper status home: overall state, components, incidents, maintenance, and a subscribe button. Optional slim banner on other client pages when something is wrong. Server-side `summary.json` only. No core file patches. MIT licensed.
@@ -202,6 +206,7 @@ osticket-statuspage/
     BannerRenderer.php           Optional degraded slim banner
     HomePanelRenderer.php        Native Statuspage home panel
   tests/smoke.php                Offline syntax + behaviour checks
+  assets/logo.svg                Project logo
   LICENSE
   README.md
 ```
