@@ -9,7 +9,8 @@
 Turns the osTicket landing page into a proper status home: overall state, components, incidents, maintenance, and a subscribe button. Optional slim banner on other client pages when something is wrong. Server-side `summary.json` only. No core file patches. MIT licensed.
 
 [![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
-[![osTicket](https://img.shields.io/badge/osTicket-1.17%2B%20%2F%201.18%2B-green.svg)](https://osticket.com/)
+[![osTicket](https://img.shields.io/badge/osTicket-1.17%2B%20%2F%201.18%2B-green.svg)](#compatibility)
+[![osTicket 2.0](https://img.shields.io/badge/osTicket%202.0-planned-lightgrey.svg)](#compatibility)
 [![PHP](https://img.shields.io/badge/PHP-8-777BB4.svg)](https://www.php.net/)
 
 Repository: <https://github.com/HairyDuck/osticket-statuspage>
@@ -54,6 +55,15 @@ Ideal for: **osTicket Statuspage integration**, customer portal status home, inc
 * Plugin folder under `include/plugins/`
 
 No Statuspage API key is required for the public summary endpoint.
+
+## Compatibility
+
+| osTicket | Status |
+|----------|--------|
+| **1.17.x / 1.18.x** | Supported (this plugin) |
+| **2.0** | Planned – not compatible yet |
+
+osTicket 2.0 is a Laravel/React rewrite with a new plugin architecture. Legacy `include/plugins/` packages will not load unchanged ([official FAQ](https://next.osticket.com/faq)). A 2.0 port will follow once RC1 plugin docs and the public repo are available.
 
 ---
 
